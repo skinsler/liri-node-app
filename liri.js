@@ -32,13 +32,21 @@ function concertList(arg) {
     let queryURL = baseURL + arg + "/events?app_id=codingbootcamp";
     axios.get(queryURL)
         .then( function(response) {
-            for (let i=0; i<response.data.length; i++) {
-                console.log("Venue Name: " + response.data[i].venue.name);
-                console.log("Venue Location: " + response.data[i].venue.city + ", " + response.data[i].venue.region);
-                console.log("Date: " + moment(response.data[i].datetime).format("MM/DD/YYYY"));
-                console.log("");
+            if (response.status === 200) {
+                for (let i=0; i<response.data.length; i++) {
+                    console.log("Venue Name: " + response.data[i].venue.name);
+                    console.log("Venue Location: " + response.data[i].venue.city + ", " + response.data[i].venue.region);
+                    console.log("Date: " + moment(response.data[i].datetime).format("MM/DD/YYYY"));
+                    console.log("");
+                }
             }
+            else (
+                console.log ("Error - Status: " + response.status)
+            )    
             })
+        .catch (function (error) {
+            console.log (error);
+        });
 
         
             
