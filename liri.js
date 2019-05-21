@@ -37,7 +37,7 @@ function runCommand(command, arg) {
         doWhatItSays();
     }
     else {
-        console.log ("Unkown command. Recognized commands are concert-list, spotify-this-song, movie-this, and do-what-it-says");
+        console.log ("Unknown command. Recognized commands are concert-list, spotify-this-song, movie-this, and do-what-it-says");
     }
 }
 
