@@ -15,7 +15,12 @@ if (command === "concert-list") {
     concertList(arg);
 }
 else if (command === "spotify-this-song") {
+    if (!arg) {
+        spotifyThisSong("The Sign Ace of Base");
+    }
+    else {
     spotifyThisSong(arg);
+    }
 }
 else if (command === "movie-this") {
     movieThis(arg);
@@ -52,12 +57,18 @@ function concertList(arg) {
             
 }
 function spotifyThisSong(arg) {
+    if (arg === "") {
+        arg = "The Sign";
+    }
+
     spotify
         .search({ type: 'track', query: arg })
         .then(function(response) {
             console.log(response.tracks.items[0]);
-        console.log("Artists: " + response.tracks.items[0].artists[0].name);
+        console.log("Artist(s): " + response.tracks.items[0].artists[0].name);
         console.log("Song Name: " + response.tracks.items[0].name);
+        console.log("Preview URL: " + response.tracks.items[0].preview_url);
+        console.log("Album: " + response.tracks.items[0].album.name);
 
   
         })
