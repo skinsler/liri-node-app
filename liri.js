@@ -52,11 +52,17 @@ function concertList(arg) {
             
 }
 function spotifyThisSong(arg) {
-    let baseURL = "http://www.omdbapi.com/?apikey=trilogy";
-    let queryURL = baseURL + "&t=" + arg;
-    axios.get(queryURL)
-        .then( function(response) {
-            console.log("The movie's rating is: " + response.data.imdbRating);
+    spotify
+        .search({ type: 'track', query: arg })
+        .then(function(response) {
+            console.log(response.tracks.items[0]);
+        console.log("Artists: " + response.tracks.items[0].artists[0].name);
+        console.log("Song Name: " + response.tracks.items[0].name);
+
+  
+        })
+        .catch(function(err) {
+        console.log(err);
         });
 }
 
