@@ -82,7 +82,14 @@ function movieThis(arg) {
     let queryURL = baseURL + "&t=" + arg;
     axios.get(queryURL)
         .then( function(response) {
-            console.log("The movie's rating is: " + response.data.imdbRating);
+            console.log(response);
+            console.log("Title: " + response.data.Title);
+            console.log("Release Year: " + response.data.Year);
+            console.log("IMDB Rating: " + response.data.Year);
+            console.log("Rotten Tomatoes Rating: " + response.data.Year);
+            console.log("Production Country: " + response.data.Year);
+            console.log("Language: " + response.data.Year);
+            console.log("Actors: " + response.data.Year);
         });
 }
 
