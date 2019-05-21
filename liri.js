@@ -3,6 +3,8 @@ let keys = require("./keys.js");
 let Spotify = require('node-spotify-api');
 let axios = require("axios");
 let moment = require("moment");
+var fs = require("fs");
+
 
 let spotify = new Spotify(keys.spotify);
 
@@ -11,9 +13,9 @@ console.log(keys.spotify.id);
 let command = process.argv[2];
 let arg = process.argv[3];
 
-runCommand(command)
+runCommand(command, arg);
 
-function runCommand(command) {
+function runCommand(command, arg) {
     if (command === "concert-list") {
         concertList(arg);
     }
@@ -34,7 +36,7 @@ function runCommand(command) {
         }
     }
     else if (command === "do-what-it-says") {
-        doWhatItSays(arg);
+        doWhatItSays();
     }
     else {
         console.log ("Unkown command");
@@ -66,10 +68,6 @@ function concertList(arg) {
             
 }
 function spotifyThisSong(arg) {
-    if (arg === "") {
-        arg = "The Sign";
-    }
-
     spotify
         .search({ type: 'track', query: arg })
         .then(function(response) {
@@ -112,11 +110,27 @@ function movieThis(arg) {
         });
 }
 
-function doWhatItSays(arg) {
-    let baseURL = "http://www.omdbapi.com/?apikey=trilogy";
-    let queryURL = baseURL + "&t=" + arg;
-    axios.get(queryURL)
-        .then( function(response) {
-            console.log("The movie's rating is: " + response.data.imdbRating);
-        });
+function doWhatItSays() {
+    fs.readFile("random.txt", "utf8", function(error, data) {
+
+        // If the code experiences any errors it will log the error to the console.
+        if (error) {
+          return console.log(error);
+        }
+      
+        // We will then print the contents of data
+        console.log(data);
+      
+        // Then split it by commas (to make it more readable)
+        var dataArr = data.split(",");
+      
+        // We will then re-display the content as an array for later use.
+        console.log(dataArr);
+
+        command = dataArr[0];
+        arg = dataArr[1];
+
+        runCommand(command, arg);
+      
+      });
 }
