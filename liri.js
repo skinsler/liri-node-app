@@ -11,25 +11,34 @@ console.log(keys.spotify.id);
 let command = process.argv[2];
 let arg = process.argv[3];
 
-if (command === "concert-list") {
-    concertList(arg);
-}
-else if (command === "spotify-this-song") {
-    if (!arg) {
-        spotifyThisSong("The Sign Ace of Base");
+runCommand(command)
+
+function runCommand(command) {
+    if (command === "concert-list") {
+        concertList(arg);
+    }
+    else if (command === "spotify-this-song") {
+        if (!arg) {
+            spotifyThisSong("The Sign Ace of Base");
+        }
+        else {
+        spotifyThisSong(arg);
+        }
+    }
+    else if (command === "movie-this") {
+        if (!arg) {
+            movieThis("Mr Nobody");
+        }
+        else {
+        movieThis(arg);
+        }
+    }
+    else if (command === "do-what-it-says") {
+        doWhatItSays(arg);
     }
     else {
-    spotifyThisSong(arg);
+        console.log ("Unkown command");
     }
-}
-else if (command === "movie-this") {
-    movieThis(arg);
-}
-else if (command=== "do-what-it-says") {
-    doWhatItSays(arg);
-}
-else {
-    console.log ("Unkown command");
 }
 
 function concertList(arg) {
@@ -85,11 +94,21 @@ function movieThis(arg) {
             console.log(response);
             console.log("Title: " + response.data.Title);
             console.log("Release Year: " + response.data.Year);
-            console.log("IMDB Rating: " + response.data.Year);
-            console.log("Rotten Tomatoes Rating: " + response.data.Year);
-            console.log("Production Country: " + response.data.Year);
-            console.log("Language: " + response.data.Year);
-            console.log("Actors: " + response.data.Year);
+            console.log("IMDB Rating: " + response.data.imdbRating);
+            let rating = "";
+            for (i=0; i<response.data.Ratings.length; i++) {
+                if (response.data.Ratings[i].Source === "Rotten Tomatoes") {
+                    rating = response.data.Ratings[i].Value;
+                    break;
+                }
+                else {
+                    rating = "N/A";
+                }
+            }
+            console.log("Rotten Tomatoes Rating: " + rating);
+            console.log("Production Country: " + response.data.Country);
+            console.log("Language: " + response.data.Language);
+            console.log("Actors: " + response.data.Actors);
         });
 }
 
