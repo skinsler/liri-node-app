@@ -8,8 +8,6 @@ var fs = require("fs");
 
 let spotify = new Spotify(keys.spotify);
 
-console.log(keys.spotify.id);
-
 let command = process.argv[2];
 let arg = process.argv[3];
 
@@ -39,7 +37,7 @@ function runCommand(command, arg) {
         doWhatItSays();
     }
     else {
-        console.log ("Unkown command");
+        console.log ("Unkown command. Recognized commands are concert-list, spotify-this-song, movie-this, and do-what-it-says");
     }
 }
 
@@ -71,7 +69,6 @@ function spotifyThisSong(arg) {
     spotify
         .search({ type: 'track', query: arg })
         .then(function(response) {
-            console.log(response.tracks.items[0]);
         console.log("Artist(s): " + response.tracks.items[0].artists[0].name);
         console.log("Song Name: " + response.tracks.items[0].name);
         console.log("Preview URL: " + response.tracks.items[0].preview_url);
@@ -89,7 +86,6 @@ function movieThis(arg) {
     let queryURL = baseURL + "&t=" + arg;
     axios.get(queryURL)
         .then( function(response) {
-            console.log(response);
             console.log("Title: " + response.data.Title);
             console.log("Release Year: " + response.data.Year);
             console.log("IMDB Rating: " + response.data.imdbRating);
@@ -113,22 +109,14 @@ function movieThis(arg) {
 function doWhatItSays() {
     fs.readFile("random.txt", "utf8", function(error, data) {
 
-        // If the code experiences any errors it will log the error to the console.
         if (error) {
           return console.log(error);
         }
-      
-        // We will then print the contents of data
-        console.log(data);
-      
-        // Then split it by commas (to make it more readable)
+    
         var dataArr = data.split(",");
       
-        // We will then re-display the content as an array for later use.
-        console.log(dataArr);
-
         command = dataArr[0];
-        arg = dataArr[1];
+        arg = dataArr[1].slice(1, -1);
 
         runCommand(command, arg);
       
